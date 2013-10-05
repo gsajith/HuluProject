@@ -43,6 +43,9 @@ Replace <URL:PORT HERE> with the IP/URL of your server machine, or just localhos
 Visit the site specified by your URL.  The site will auto-refresh every second with
 a new guess.
 
+#ERRORS
+Crashes when it encounters a word not in my dictionary file.  Unlikely, but it happens.
+
 #FUTURE IMPROVEMENTS
 My conditional-probability implementation does well in the early stages when probabiliy
 works, but tends to fail towards the end when there are only one or two blanks remaining.
