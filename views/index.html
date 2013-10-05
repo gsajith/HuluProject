@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+    
+
+ <div id="panel">
+    <b>Start: </b>
+	<form>
+	Start: <input type="text" id="start" value="San Francisco, CA" onchange="calcRoute();"><br>
+	End: <input type="text" id = "end" value="Hayward, CA" onchange="calcRoute();"><br>
+	</form> 
+	Within: <select id="radius" onchange="calcRoute();">
+		<option value=1.0>1 mile</option>
+		<option value=2.5>2.5 miles</option>
+		<option value=5.0>5 miles</option>
+		<option value=10.0>10 miles</option>
+		<option value=15.0>15 miles</option>
+		<option value=25.0>25 miles</option>
+	</select>
+    <!--<select id="start">
+      <option value="penn station, new york, ny">Penn Station</option>
+      <option value="grand central station, new york, ny">Grand Central Station</option>
+      <option value="625 8th Avenue, New York, NY, 10018">Port Authority Bus Terminal</option>
+      <option value="staten island ferry terminal, new york, ny">Staten Island Ferry Terminal</option>
+      <option value="101 E 125th Street, New York, NY">Harlem - 125th St Station</option>
+    </select>
+    <b>End: </b>
+    <select id="end" onchange="calcRoute();">
+      <option value="260 Broadway New York NY 10007">City Hall</option>
+      <option value="W 49th St & 5th Ave, New York, NY 10020">Rockefeller Center</option>
+      <option value="moma, New York, NY">MOMA</option>
+      <option value="350 5th Ave, New York, NY, 10118">Empire State Building</option>
+      <option value="253 West 125th Street, New York, NY">Apollo Theater</option>
+      <option value="1 Wall St, New York, NY">Wall St</option>
+    </select>-->
+    </div>
+    <div id="map-canvas"></div>
+{% endblock %}
