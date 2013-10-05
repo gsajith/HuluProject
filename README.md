@@ -42,3 +42,23 @@ Replace <URL:PORT HERE> with the IP/URL of your server machine, or just localhos
 
 Visit the site specified by your URL.  The site will auto-refresh every second with
 a new guess.
+
+#FUTURE IMPROVEMENTS
+My conditional-probability implementation does well in the early stages when probabiliy
+works, but tends to fail towards the end when there are only one or two blanks remaining.
+This is because it is unable to determine which letter to use from the context of the 
+phrase, and instead just uses available dictionary words.
+
+For example, the phrase "BEING AMONGST THE -ITNESSES EXAMINED" could probably be figured
+out by a human as "WITNESSES".  However, considering the words "WITNESSES" and "FITNESSES"
+are both in my dictionary file, and both occur once, my program would think there is
+a 50/50 chance of each happening.
+
+There are two suggestions I can think of to improve this.  One would be to make use of
+a word-frequency dictionary, so I can somewhat-more-inteligently figure out the more
+commonly used word to guess.  I could use this to put more weight on the characters
+of common words, and less weight on the characters of rarely used words.
+
+Another suggestion would be to use some sort of natural-language-processing API to 
+decide which of the two possible end phrases is more common, and choose that one. I
+haven't been able to find whether something like this exists, but I think it is possible.  
