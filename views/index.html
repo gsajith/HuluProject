@@ -1,7 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>INDEX</h1>
+	<meta http-equiv="refresh" content="1">
+    <h1>Hangman</h1>
     <p class="center">
-      Welcome!
+      Token: {{token}}<br>
+	Status: {{status}}<br>
+	Remaining guesses: {{remaining_guesses}}<br>
+	Word: {{state}}<br><br>
+	{% for guess in results %}
+		{{guess}} <br>
+	{% endfor %} <br>
+	<!--{%if status=='ALIVE'%}
+		<form action="/guess" method=post>
+			<input type=text name="guess">
+			<input type=hidden name="token" value={{token}}>
+			<input type=hidden name="state" value={{state}}>
+			<input type=hidden name="remaining_guesses" value={{remaining_guesses}}>
+			<input type=hidden name="status" value={{status}}>
+			<input type=submit href="" value=Guess>
+		</form>
+		{% else %}
+		<form action="/" method=get>
+			<input type=submit href="" value="Next Victim">
+		</form>
+		{% endif %}
+	</form>-->
     </p>
+
 {% endblock %}
