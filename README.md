@@ -1,63 +1,44 @@
-# Get Going With Python and Flask
+# IMPLEMENTATION INFO
+I chose to implement this hangman solver as a web app, mostly for fun and 
+partially so I could show my solver to some friends of mine.  It's implemented
+using Python and Flask.
 
-## Install Python, PIP, Virtualenv, etc:
+My app switches between two high-level states:  Restart and no-restart.  
+In the restart state, either the user has just connected (so a new hangman 
+puzzle needs to be loaded) or the previous puzzle was completed, so a new
+puzzle needs to be loaded.  In this state, the correct URL is fetched 
+to get a new puzzle with a new token.
+In the no-restart state, a puzzle is currently in progress so no new 
+puzzle is fetched.  In this state, the token is maintained so that
+the puzzle session can continue.
 
-- [OSX Users](http://docs.python-guide.org/en/latest/starting/install/osx/)
-- [Windows Users](http://docs.python-guide.org/en/latest/starting/install/win/)
-- [Linux Users](http://docs.python-guide.org/en/latest/starting/install/linux/)
+# GUESS - GENERATION
+Within the no-restart state, the app starts formulating guesses based on
+conditional probability.  
+e.g. When the entirety of the phrase to guess
+is blank, it will go through the loaded dictionary file and find
+the most common character to guess.
 
-## Start the Virtualenv and Install Dependencies:
+When the phrase starts to fill up with correct letters, it will search
+the dictionary only for words which would match the regex specified 
+by the combination of blanks and letters.
+e.g. the incomplete word EXA-I-ED would be converted to the 
+regex ^EXA[a-zA-Z]I[a-zA-Z]ED$ and then searched for, and the conditional
+probability of the next best character to guess would be based on these results.
 
-Run `virtualenv venv --distribute` this is going to create a safe place for you to install packages and run your app. Otherwise you need to install a package on your whole machine which can cause conflicts and horrible nightmares.
+I also keep track of a list of already guessed letters, just so it doesn't 
+keep guessing a previously-most-common-character which is still-most-common.
 
-Then Run `source venv/bin/activate`. This step is important, and mostly magic. You need to run this command **every time you start developing** with a new terminal window. Otherwise your terminal will not be using the virtual environment and things will break. You should see something like `(venv)your-computer:python username$`. (This is slightly different on Windows, see above).
+# SETUP INFO
+Run `virtualenv venv --distribute` 
 
-Then run `pip install -r requirements.txt`. This only works correctly because I already gave you a `requirements.txt` file with the right dependencies. If you add a new dependency (like MySQLdb) simple run `pip install mysql-python`.
+Run `source venv/bin/activate`  Sets up and activates the virtual environment
 
-Unless you're lucky `pip install mysql-python` probably failed. Thats because you need to install `mysql` first. 
+Run `pip install -r requirements.txt`  Installs required files
 
-- On linux this should fix the problem:  
-  `apt-get install build-essential python-dev libmysqlclient-dev`
-- On Mac or Windows [read here](http://mysql-python.blogspot.com/2012/11/is-mysqldb-hard-to-install.html).
-- On My Mac I ran `brew install  mysql` and then had to run `sudo chown -R $(whoami) /usr/local/` because the link failed. Then I had to run `brew link mysql`. FINALLY `pip install mysql-python` worked just fine. :)
+Run the app:  `gunicorn -b <URL:PORT HERE> app:app -t 0`
 
-Whew, fun right? Welcome to web development, sometimes setting up tools is a huge pain.
+Replace <URL:PORT HERE> with the IP/URL of your server machine, or just localhost.
 
-## Run the Darn Thing:
-You can simply run `python app.py` now and you'll have an app running!
-
-Once you've gotten your app working fine run `pip freeze > requirement.txt` to save your dependencies as they are. This way when your group mates pull your code they can just run `pip install -r requirements.txt` just like before!
-
-## Deploy
-
-To deploy this guy we need a WSGI server. You can run `gunicorn -b localhost:3000 -b localhost:3001 -w 4 app:app` this means the app will run with four workers, locally on two ports! You can drop the -w 4, its probably overkill for this class.
-
-If we were really going to deploy this app, we'd run this sucker behind a proxy server like `nginx` - kudos if you figure out how to do this. Nginx would do all the static files for us too. Luckily, Flask will host static files for you in '/static' feel free to put your '/pictures' folder here!
-
-## Final Notes:
-
-Take a look at this source code. If you want to do things a different way (for example use Django) go for it! 
-
-------
-
-Example Project Below README.md:
-
-------
-
-### Group Name: python-example
-
-### Members:
-  - Otto Sipe (ottosipe): setup the database, setup the routes, did the project alone  
-
-### Details:
-  - [Link For Running Version](http://google.com)
-  - We called our `/pic` endpoint `/foto`
-
-### Deploy: 
-  - `virtualenv venv --distribute`
-  - `source venv/bin/activate` (run for every new terminal window)
-  - `pip install -r requirements.txt`
-  - `foreman start`
-
-### Extra:
-  - I took 2 late days.
+Visit the site specified by your URL.  The site will auto-refresh every second with
+a new guess.
